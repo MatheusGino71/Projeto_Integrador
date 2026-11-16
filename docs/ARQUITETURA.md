@@ -70,7 +70,7 @@ O estado “em atraso” é calculado a partir de `due_on`, não armazenado como
 
 Cada operação é confirmada por uma transação. No PostgreSQL, o registro do equipamento é bloqueado durante a validação da retirada, e a restrição única permanece como garantia final contra concorrência. A devolução usa uma atualização condicional que só pode concluir um empréstimo ainda em aberto. O SQLite aplica a mesma restrição única e as chaves estrangeiras são habilitadas explicitamente.
 
-Na Vercel, as conexões PostgreSQL usam `NullPool`, evitando manter pools de conexões ociosas em cada instância da aplicação. O endereço deve ter TLS habilitado conforme a configuração do provedor. O esquema remoto é criado pelo comando `init-db`, e não em toda requisição.
+Na Vercel, as conexões PostgreSQL usam `NullPool`, evitando manter pools de conexões ociosas em cada instância da aplicação. O endereço deve ter TLS habilitado conforme a configuração do provedor. A configuração aceita `DATABASE_URL` e, como alternativa, `POSTGRES_URL`. O esquema remoto é criado pelo comando `init-db` durante o build, e não em toda requisição.
 
 ## Acesso e formulários
 

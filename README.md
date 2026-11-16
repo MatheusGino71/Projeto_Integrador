@@ -55,7 +55,7 @@ Essa opção insere 8 equipamentos, 5 pessoas e 4 empréstimos, incluindo um atr
 
 **Localmente:** SQLite, criado automaticamente em `instance/circula.db`. Fechar o navegador ou reiniciar o servidor não apaga os registros. Com a aplicação parada, copie esse arquivo para fazer um backup local. O arquivo do banco não vai para o Git nem para o pacote de entrega.
 
-**Na Vercel:** PostgreSQL externo, por exemplo Neon. A conexão é escolhida por `DATABASE_URL`; os mesmos modelos são utilizados nos dois bancos. Não use SQLite em `/tmp` na hospedagem: esse arquivo não é uma base persistente compartilhada entre execuções.
+**Na Vercel:** PostgreSQL externo, por exemplo Neon. A conexão é escolhida por `DATABASE_URL` ou, se ela estiver vazia, por `POSTGRES_URL`, fornecida por algumas integrações do Neon. Os mesmos modelos são utilizados nos dois bancos. Não use SQLite em `/tmp` na hospedagem: esse arquivo não é uma base persistente compartilhada entre execuções.
 
 Cada equipamento representa **uma unidade física**, não um saldo de estoque. O índice único de empréstimos em aberto impede duplicidade também no banco. A devolução preserva o histórico. Cadastros com empréstimos em andamento não podem ser desativados ou colocados em manutenção.
 
@@ -79,19 +79,19 @@ Repositório: [MatheusGino71/Projeto_Integrador](https://github.com/MatheusGino7
    .\.venv\Scripts\python.exe -c "import secrets; print(secrets.token_hex(32))"
    ```
 
-4. Inicialize o banco remoto uma vez:
+4. Para inicializar o banco remoto manualmente, execute:
 
    ```powershell
    .\.venv\Scripts\python.exe -m flask --app app init-db
    ```
 
-   Esse comando cria as tabelas e os índices sem apagar registros existentes. Não é uma ferramenta de migração de versões do esquema.
+   Esse comando cria as tabelas e os índices sem apagar registros existentes. A Vercel executa esse mesmo comando automaticamente durante o build, depois de instalar as dependências. Não é uma ferramenta de migração de versões do esquema.
 
-5. Importe o repositório na Vercel. Use a raiz do projeto e o preset **Flask** detectado pela plataforma. Não configure build de frontend nem uma pasta `dist`.
-6. Cadastre as três variáveis (`DATABASE_URL`, `SECRET_KEY`, `ADMIN_PASSWORD`) no ambiente da Vercel e publique. A plataforma fornece `VERCEL=1` automaticamente.
+5. Importe o repositório na Vercel. Use a raiz do projeto e o preset **Flask** detectado pela plataforma. O `vercel.json` já configura o comando de inicialização do banco. Não configure build de frontend nem uma pasta `dist`.
+6. Cadastre `SECRET_KEY` e `ADMIN_PASSWORD` e confira a conexão em `DATABASE_URL` ou `POSTGRES_URL` no ambiente da Vercel. A plataforma fornece `VERCEL=1` automaticamente.
 7. Acesse o endereço publicado, entre com a senha e teste um cadastro, um empréstimo e uma devolução. Após alterar variáveis, faça um novo deployment.
 
-Na hospedagem, a aplicação exige as três variáveis e uma conexão PostgreSQL. Se faltarem configurações, mostra uma página de orientação em vez de gravar dados em arquivos temporários. Os arquivos de `public/` são servidos no mesmo caminho localmente e pela CDN da Vercel.
+Na hospedagem, a aplicação exige a conexão PostgreSQL e as duas variáveis de acesso. O build verifica a configuração e cria as tabelas ausentes antes de publicar. Se faltarem configurações em uma versão já publicada, ela mostra uma página de orientação em vez de gravar dados em arquivos temporários. Os arquivos de `public/` são servidos no mesmo caminho localmente e pela CDN da Vercel.
 
 O PostgreSQL hospedado e o deployment precisam ser validados depois de conectar suas contas. Os testes incluídos usam SQLite temporário; não dependem de conta externa.
 

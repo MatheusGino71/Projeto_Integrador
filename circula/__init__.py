@@ -38,12 +38,14 @@ def create_app(test_config=None):
     load_dotenv()
     app = Flask(__name__, template_folder="../templates", static_folder="../public", static_url_path="")
     cloud = os.getenv("VERCEL") == "1"
-    database_url = os.getenv("DATABASE_URL", "").strip()
+    database_url = (os.getenv("DATABASE_URL", "").strip() or os.getenv("POSTGRES_URL", "").strip())
     if database_url.startswith(("postgres://", "postgresql://")):
         database_url = "postgresql+psycopg://" + database_url.split("://", 1)[1]
-    missing = [name for name in ("DATABASE_URL", "SECRET_KEY", "ADMIN_PASSWORD") if not os.getenv(name, "").strip()] if cloud else []
+    missing = [name for name in ("SECRET_KEY", "ADMIN_PASSWORD") if not os.getenv(name, "").strip()] if cloud else []
+    if cloud and not database_url:
+        missing.insert(0, "DATABASE_URL ou POSTGRES_URL")
     if cloud and database_url and not database_url.startswith("postgresql+psycopg://"):
-        missing.append("DATABASE_URL deve ser uma conexão PostgreSQL")
+        missing.append("DATABASE_URL ou POSTGRES_URL deve ser uma conexão PostgreSQL")
 
     app.config.from_mapping(
         SECRET_KEY=os.getenv("SECRET_KEY") or secrets.token_hex(32),

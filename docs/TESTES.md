@@ -10,7 +10,7 @@ Na raiz do projeto, com as dependências instaladas:
 
 Os testes usam o cliente HTTP do Flask e bancos SQLite temporários. Nenhum cadastro local é apagado ou reutilizado. A suíte cobre:
 
-**Resultado local em 16/11/2026:** 21 testes passaram, utilizando Python 3.12.3. A configuração PostgreSQL e o índice parcial foram compilados sem conexão externa; isso não equivale a testar um banco PostgreSQL hospedado.
+**Resultado local em 16/11/2026:** 23 testes passaram, utilizando Python 3.12.3. Incluem a alternativa `POSTGRES_URL` fornecida pelo Neon e a prioridade de `DATABASE_URL`. A configuração PostgreSQL e o índice parcial foram compilados sem conexão externa; isso não equivale a testar um banco PostgreSQL hospedado.
 
 O iniciador Windows também foi executado. Em um banco separado de demonstração, um teste HTTP com o servidor ativo confirmou carga de exemplos, retirada e devolução com cookies e CSRF habilitados. O ZIP foi extraído em uma pasta de revisão e os mesmos 21 testes passaram a partir dos arquivos empacotados.
 

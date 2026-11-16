@@ -237,6 +237,22 @@ class ApplicationTest(unittest.TestCase):
         with cloud_app.app_context():
             db.engine.dispose()
 
+    def test_neon_postgres_url_is_accepted_when_database_url_is_empty(self):
+        with patch.dict(os.environ, {"VERCEL": "1", "DATABASE_URL": "", "POSTGRES_URL": "postgresql://user:dummy@example.invalid/circula?sslmode=require", "SECRET_KEY": "test-key", "ADMIN_PASSWORD": "test-password"}):
+            cloud_app = create_app()
+        self.assertEqual(cloud_app.config["DEPLOYMENT_ERRORS"], [])
+        self.assertTrue(cloud_app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgresql+psycopg://"))
+        with cloud_app.app_context():
+            db.engine.dispose()
+
+    def test_database_url_takes_precedence_over_neon_alias(self):
+        with patch.dict(os.environ, {"VERCEL": "1", "DATABASE_URL": "postgresql://user:dummy@preferred.invalid/circula", "POSTGRES_URL": "postgresql://user:dummy@fallback.invalid/circula", "SECRET_KEY": "test-key", "ADMIN_PASSWORD": "test-password"}):
+            cloud_app = create_app()
+        self.assertIn("preferred.invalid", cloud_app.config["SQLALCHEMY_DATABASE_URI"])
+        self.assertNotIn("fallback.invalid", cloud_app.config["SQLALCHEMY_DATABASE_URI"])
+        with cloud_app.app_context():
+            db.engine.dispose()
+
 
 class PersistenceTest(unittest.TestCase):
     def test_data_survives_a_new_application_instance(self):
