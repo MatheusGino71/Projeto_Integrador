@@ -1,0 +1,3 @@
+{% extends 'auth_base.html' %}
+{% block title %}Configuração pendente{% endblock %}
+{% block content %}<p class="eyebrow">CONFIGURAÇÃO PENDENTE</p><h1>Falta pouco<span class="heading-dot">.</span></h1><p>O responsável pela publicação precisa configurar as variáveis de ambiente abaixo na Vercel e publicar novamente.</p><ul class="setup-list">{% for name in missing %}<li><code>{{ name }}</code></li>{% endfor %}</ul><p>As instruções completas estão no arquivo README do projeto.</p>{% endblock %}

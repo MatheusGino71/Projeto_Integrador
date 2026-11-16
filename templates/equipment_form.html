@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import icon, field, select_field, textarea, form_errors with context %}
+{% block title %}{{ 'Editar' if item else 'Novo' }} equipamento{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('web.equipment_list') }}">{{ icon('back') }}Equipamentos</a><div class="page-heading"><div><p class="eyebrow">ACERVO DO LABORATÓRIO</p><h1>{{ 'Editar' if item else 'Novo' }} equipamento<span class="heading-dot">.</span></h1><p>Uma unidade física, um patrimônio e todas as informações no mesmo lugar.</p></div></div>
+<div class="form-layout"><section class="panel form-panel"><div class="panel-heading"><div><h2>Informações do equipamento</h2><p>Os campos com * são obrigatórios.</p></div>{{ icon('box') }}</div><form method="post" class="data-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{{ form_errors(errors) }}
+{{ field('name', 'Nome do equipamento', values, errors, placeholder='Ex.: Notebook Dell Latitude') }}
+<div class="form-grid">{{ field('asset_code', 'Patrimônio / identificação', values, errors, maxlength=30, placeholder='Ex.: NT-001', help='Código único por unidade física.') }}{{ select_field('category', 'Categoria', category_options, values, errors) }}</div>
+{{ field('location', 'Local de guarda', values, errors, placeholder='Ex.: Laboratório 01') }}
+{{ select_field('condition', 'Situação do equipamento', conditions.items(), values, errors) }}
+{{ textarea('notes', 'Observações', values, errors, 'Acessórios incluídos, estado de conservação ou detalhes de manutenção.') }}
+<div class="form-actions"><a class="button button-secondary" href="{{ url_for('web.equipment_list') }}">Cancelar</a><button type="submit" class="button button-primary">{{ icon('check') }}{{ 'Salvar alterações' if item else 'Cadastrar equipamento' }}</button></div>
+</form></section><aside class="form-aside"><span class="aside-icon">{{ icon('info') }}</span><h3>Cada unidade conta.</h3><p>Mesmo que dois equipamentos sejam do mesmo modelo, cadastre cada um com um patrimônio diferente.</p><hr><h4>Apto para empréstimo</h4><p>O equipamento pode ser emprestado quando não houver uma retirada em andamento.</p><h4>Manutenção ou desativado</h4><p>O item permanece no histórico e deixa de aparecer entre as opções de empréstimo.</p></aside></div>
+{% endblock %}

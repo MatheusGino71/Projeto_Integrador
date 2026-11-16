@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import icon, field, select_field, form_errors with context %}
+{% block title %}{{ 'Editar pessoa' if person else 'Nova pessoa' }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('web.people_list') }}">{{ icon('back') }}Pessoas</a><div class="page-heading"><div><p class="eyebrow">COMUNIDADE DO LABORATÓRIO</p><h1>{{ 'Editar pessoa' if person else 'Nova pessoa' }}<span class="heading-dot">.</span></h1><p>Identifique quem será responsável pelos equipamentos emprestados.</p></div></div>
+<div class="form-layout"><section class="panel form-panel"><div class="panel-heading"><div><h2>Informações da pessoa</h2><p>Os campos com * são obrigatórios.</p></div>{{ icon('users') }}</div><form method="post" class="data-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{{ form_errors(errors) }}
+{{ field('name', 'Nome completo', values, errors, placeholder='Ex.: Ana Oliveira') }}
+<div class="form-grid">{{ field('registration', 'Matrícula / identificação', values, errors, maxlength=30, placeholder='Ex.: AL-001') }}{{ select_field('role', 'Vínculo', roles.items(), values, errors) }}</div>
+{{ field('email', 'E-mail de contato', values, errors, type='email', maxlength=120, placeholder='nome@exemplo.com') }}
+{{ select_field('active', 'Situação do cadastro', [('true','Ativo'),('false','Inativo')], values, errors) }}
+<div class="form-actions"><a class="button button-secondary" href="{{ url_for('web.people_list') }}">Cancelar</a><button type="submit" class="button button-primary">{{ icon('check') }}{{ 'Salvar alterações' if person else 'Cadastrar pessoa' }}</button></div>
+</form></section><aside class="form-aside"><span class="aside-icon">{{ icon('users') }}</span><h3>Um responsável<br>em cada retirada.</h3><p>O cadastro conecta cada empréstimo à pessoa que está utilizando o equipamento.</p><hr><h4>Identificação única</h4><p>Use a matrícula ou um código interno. O mesmo código não pode pertencer a duas pessoas.</p><h4>Contato para acompanhamento</h4><p>O e-mail fica disponível para consulta. O sistema não envia mensagens automaticamente.</p></aside></div>
+{% endblock %}
