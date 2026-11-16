@@ -124,7 +124,7 @@ Essa etapa permanece pendente. Não devem ser incluídas respostas, participante
 
 O README descreve a instalação e execução em Windows, Linux e macOS. O banco SQLite é criado automaticamente para avaliação local. A configuração por variável de ambiente permite utilizar PostgreSQL na futura hospedagem na Vercel.
 
-A suíte automatizada verifica o ciclo completo, persistência, restrições, filtros, exportação, autenticação e formulários. Os procedimentos estão em [TESTES.md](TESTES.md). A publicação e a conexão a um PostgreSQL hospedado dependem das contas que serão configuradas posteriormente e ainda não foram verificadas.
+A suíte automatizada verifica o ciclo completo, persistência, restrições, filtros, exportação, autenticação e formulários. Os procedimentos estão em [TESTES.md](TESTES.md). A aplicação foi publicada na Vercel com PostgreSQL no Neon. O login e as consultas ao banco hospedado foram verificados em 16/11/2026. A criação de empréstimos e devoluções foi testada em bancos locais isolados; a verificação em produção foi apenas de leitura, sem incluir registros fictícios.
 
 ## 6. Delimitação
 

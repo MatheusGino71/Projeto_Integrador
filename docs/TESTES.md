@@ -12,6 +12,8 @@ Os testes usam o cliente HTTP do Flask e bancos SQLite temporários. Nenhum cada
 
 **Resultado local em 16/11/2026:** 23 testes passaram, utilizando Python 3.12.3. Incluem a alternativa `POSTGRES_URL` fornecida pelo Neon e a prioridade de `DATABASE_URL`. A configuração PostgreSQL e o índice parcial foram compilados sem conexão externa; isso não equivale a testar um banco PostgreSQL hospedado.
 
+**Verificação da publicação em 16/11/2026:** o site [projeto-integrador-eta-dusky.vercel.app](https://projeto-integrador-eta-dusky.vercel.app) respondeu corretamente ao login com CSRF em HTTPS e às consultas da visão geral, equipamentos, pessoas e empréstimos, utilizando o PostgreSQL do Neon. O formulário de novo empréstimo e os arquivos de estilo também foram consultados. Nenhum registro de demonstração, empréstimo ou devolução foi criado na produção durante essa verificação.
+
 O iniciador Windows também foi executado. Em um banco separado de demonstração, um teste HTTP com o servidor ativo confirmou carga de exemplos, retirada e devolução com cookies e CSRF habilitados. O ZIP foi extraído em uma pasta de revisão e os mesmos 21 testes passaram a partir dos arquivos empacotados.
 
 | Área | Verificação |
@@ -63,4 +65,4 @@ A revisão visual no navegador não foi concluída no ambiente de desenvolviment
 
 ## Evidências e limites
 
-A execução da suíte deve ser registrada no ambiente do avaliador. Não se deve apresentar testes locais com SQLite como evidência de que a hospedagem já foi publicada ou validada com PostgreSQL. Os testes técnicos também não demonstram ganho de tempo ou satisfação de usuários reais.
+A execução da suíte deve ser registrada no ambiente do avaliador. Os testes locais com SQLite e a verificação HTTP em produção são evidências distintas: somente a primeira inclui operações de escrita do ciclo completo. Os testes técnicos também não demonstram ganho de tempo ou satisfação de usuários reais.

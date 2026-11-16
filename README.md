@@ -2,6 +2,8 @@
 
 Aplicação web acadêmica para escolas e laboratórios. A lógica é escrita em **Python com Flask**; as páginas são HTML gerado por Jinja, com CSS local. Não é necessário instalar Node.js, TypeScript ou Java.
 
+**Site publicado:** [projeto-integrador-eta-dusky.vercel.app](https://projeto-integrador-eta-dusky.vercel.app). O acesso à gestão é protegido por senha.
+
 ## Executar agora
 
 No Windows, abra **`iniciar.cmd`**. Ele prepara um ambiente virtual quando necessário, instala as dependências na primeira execução e inicia a aplicação.
@@ -61,7 +63,7 @@ Cada equipamento representa **uma unidade física**, não um saldo de estoque. O
 
 ## Publicar depois no Git e na Vercel
 
-Repositório: [MatheusGino71/Projeto_Integrador](https://github.com/MatheusGino71/Projeto_Integrador). A configuração para a Vercel está incluída; **a aplicação ainda não foi publicada**.
+Repositório: [MatheusGino71/Projeto_Integrador](https://github.com/MatheusGino71/Projeto_Integrador). A aplicação está publicada na Vercel, com PostgreSQL no Neon. Os passos abaixo permitem reproduzir a configuração.
 
 1. Use o repositório acima para importar o projeto na Vercel. O `.gitignore` já exclui `.env`, `.venv`, caches, bancos locais e entregas geradas.
 2. Crie um PostgreSQL no Neon ou outro provedor e copie a conexão com TLS (`sslmode=require`). Você também pode conectar o Neon pelo Marketplace da Vercel.
@@ -93,7 +95,7 @@ Repositório: [MatheusGino71/Projeto_Integrador](https://github.com/MatheusGino7
 
 Na hospedagem, a aplicação exige a conexão PostgreSQL e as duas variáveis de acesso. O build verifica a configuração e cria as tabelas ausentes antes de publicar. Se faltarem configurações em uma versão já publicada, ela mostra uma página de orientação em vez de gravar dados em arquivos temporários. Os arquivos de `public/` são servidos no mesmo caminho localmente e pela CDN da Vercel.
 
-O PostgreSQL hospedado e o deployment precisam ser validados depois de conectar suas contas. Os testes incluídos usam SQLite temporário; não dependem de conta externa.
+Em 16/11/2026, a publicação, o login e as consultas ao PostgreSQL hospedado foram verificados por HTTP. A verificação em produção não criou dados de demonstração ou empréstimos. A suíte automatizada usa SQLite temporário e cobre o ciclo completo de retirada e devolução sem depender de conta externa.
 
 Referências oficiais de publicação: [Flask na Vercel](https://vercel.com/docs/frameworks/backend/flask), [runtime Python](https://vercel.com/docs/functions/runtimes/python), [armazenamento](https://vercel.com/docs/marketplace-storage).
 
